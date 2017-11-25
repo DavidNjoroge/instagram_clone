@@ -1,14 +1,21 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from .forms import UserForm,ProfileForm
+from .forms import UserForm,ProfileForm,ProfilePicForm
 # Create your views here.
 def index(request):
 
     return render(request,'index.html')
 
 def profile(request):
+    profile_pic=ProfilePicForm()
+    if request.method == 'POST':
+        profile_pic=ProfilePicForm(instance=request.user)
+        if profile_pic.is_valid():
+            profile_pic.save()
+            
+            print('sadfgdafdgdsfgnv')
 
-    return render(request,'profile.html')
+    return render(request,'profile.html',{'pic':profile_pic})
 
 def update_profile(request):
     # if request.method == 'POST':
