@@ -16,9 +16,10 @@ def index(request):
             print('it will save<><><><<><')
     else:
         form=NewPostForm()
+    posts=Post.objects.filter(user=current_user)
+    print(len(posts))
 
-
-    return render(request,'index.html',{'form':form})
+    return render(request,'index.html',{'form':form,'posts':posts})
 
 def profile(request):
     profile_pic=ProfilePicForm()

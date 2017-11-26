@@ -1,3 +1,15 @@
 .profile{
     color: pink;
 }
+.img{
+    width: 100%;
+
+}
+.post{
+    border-width:1px;  
+    border-style:solid;
+    padding: 0;
+}
+body{
+    color: pink;
+}
