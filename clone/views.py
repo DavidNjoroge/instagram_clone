@@ -1,15 +1,18 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .forms import UserForm,ProfileForm,ProfilePicForm,NewPostForm
+from .models import Post
 # Create your views here.
 def index(request):
     current_user=request.user
     if request.method=='POST':
         form=NewPostForm(request.POST,request.FILES)
         if form.is_valid():
-            # post=form.save(commit=False)
-            # post.user=current_user
-            # post.save()
+            post=form.save(commit=False)
+            post.user=current_user
+            post.save()
+            # new_post=Post(user=current_user,post_image=post)
+            # new_post.save()
             print('it will save<><><><<><')
     else:
         form=NewPostForm()

@@ -17,9 +17,9 @@ class ProfilePicForm(forms.ModelForm):
         model = Profile
         fields=('profile_pic',)
 
-class NewPostForm(forms.Form):
-    # class Meta:
-    #     model=Post
-        # fields=('post_image',)
+class NewPostForm(forms.ModelForm):
+    class Meta:
+        model=Post
+        fields=('post_image',)
         
-    image=forms.ImageField()
+    # image=forms.ImageField()
