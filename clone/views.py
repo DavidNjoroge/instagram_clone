@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from .forms import UserForm,ProfileForm,ProfilePicForm,NewPostForm
+from .forms import UserForm,ProfileForm,ProfilePicForm,NewPostForm,NewCommentForm
 from .models import Post
 # Create your views here.
 def index(request):
     current_user=request.user
     if request.method=='POST':
         form=NewPostForm(request.POST,request.FILES)
+        # comment_form=NewCommentForm(request.POST)
+        print('<><><>half way<><>>')
         if form.is_valid():
             post=form.save(commit=False)
             post.user=current_user
@@ -14,11 +16,18 @@ def index(request):
             # new_post=Post(user=current_user,post_image=post)
             # new_post.save()
             print('it will save<><><><<><')
+        elif comment_form.is_valid():
+            print('<><>> the comment form is working<><><><')
     else:
+    
         form=NewPostForm()
-    posts=Post.objects.filter(user=current_user)
-    print(len(posts))
-
+        # comment_form=NewCommentForm()
+    if current_user.is_authenticated():
+        print('LOgged in')
+        posts=Post.objects.filter(user=current_user)
+    else:
+        # print(len(posts))
+        posts=[]
     return render(request,'index.html',{'form':form,'posts':posts})
 
 def profile(request):

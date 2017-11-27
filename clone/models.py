@@ -25,7 +25,6 @@ class Post(models.Model):
     post_image=models.ImageField(upload_to='posts/')
     pub_date=models.DateTimeField(auto_now_add=True)
 
-
 class Comment(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     post=models.ForeignKey(Post)
@@ -33,7 +32,6 @@ class Comment(models.Model):
 
 class Followers(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
-
 
 class Following(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
