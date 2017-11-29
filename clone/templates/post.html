@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% block content %}{% load bootstrap3 %} 
 
 <div class="container">
     <div class="row">
@@ -15,8 +15,13 @@
             <div>
                 <button>like</button>
                 <h5>100 likes</h5>
-                <h5><strong>david_mwas</strong> liked the movie</h5>
-
+                {% for comment in comments %}
+                <h5><strong>{{comment.user.username}} :</strong> {{comment.words}}</h5>
+                {% endfor %}
+                <form action="" method="post" >
+                    {%csrf_token%} {% bootstrap_form comment_form%}
+                    <input type="submit" class="btn btn-success btn-sm" value="Post">
+                </form>
             </div>
         </div>
         <div class="col-md-3">

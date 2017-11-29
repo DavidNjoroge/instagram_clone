@@ -23,8 +23,9 @@
             <div>
                 <button>like</button>
                 <h5>100 likes</h5>
-                <h5><strong>david_mwas</strong> liked the movie</h5>
-
+                {% for comment in post.comments%}
+                <h5><strong>{{comment.user.username}} :</strong> {{comment.words}}</h5>
+                {% endfor %}
             </div>
         </div>
         <div class="col-md-3">

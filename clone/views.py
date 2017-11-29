@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .forms import UserForm,ProfileForm,ProfilePicForm,NewPostForm,NewCommentForm
-from .models import Post
+from .models import Post,Comment
+from django.contrib.auth.models import User
 # Create your views here.
 def index(request):
     current_user=request.user
+    # comments=Comment.objects.filter(post_id=post_id)
+    
     if request.method=='POST':
         form=NewPostForm(request.POST,request.FILES)
         # comment_form=NewCommentForm(request.POST)
@@ -16,8 +19,8 @@ def index(request):
             # new_post=Post(user=current_user,post_image=post)
             # new_post.save()
             print('it will save<><><><<><')
-        elif comment_form.is_valid():
-            print('<><>> the comment form is working<><><><')
+        # elif comment_form.is_valid():
+        #     print('<><>> the comment form is working<><><><')
     else:
     
         form=NewPostForm()
@@ -42,31 +45,40 @@ def profile(request):
     return render(request,'profile.html',{'pic':profile_pic})
 
 def update_profile(request):
-    # if request.method == 'POST':
-    #     user_form = UserForm(request.POST, instance=request.user)
-    #     profile_form = ProfileForm(request.POST, instance=request.user.profile)
-    #     if user_form.is_valid() and profile_form.is_valid():
-    #         user_form.save()
-    #         profile_form.save()
-    #         messages.success(request, _('Your profile was successfully updated!'))
-    #         return redirect('settings:profile')
-    #     else:
-    #         messages.error(request, _('Please correct the error below.'))
-    # else:
     user_form = UserForm(instance=request.user)
     profile_form = ProfileForm(instance=request.user.profile)
-    # return render(request, 'profiles/profile.html', {
-    #     'user_form': user_form,
-    #     'profile_form': profile_form
-    # })
-
     return render (request,'update_profile.html', {
         'user_form': user_form,
         'profile_form': profile_form
     })
 def post(request,post_id):
+    comments=Comment.objects.filter(post_id=post_id)
+    
     try:
         post=Post.objects.get(id=post_id)
     except DoesNotExist:
         raise Http404()
-    return render(request,'post.html',{'post':post})
+    current_user=request.user
+    if request.method=='POST':
+        comment_form=NewCommentForm(request.POST)
+        print('<><><>half way<><>>')
+        if comment_form.is_valid():
+            print('it will save<><><><<><')
+            comment=comment_form.save(commit=False)
+            comment.user=current_user
+            comment.post=post
+            comment.save()
+            # new_post=Post(user=current_user,post_image=post)
+            # new_post.save()
+    else:
+        comment_form=NewCommentForm()
+        print(len(comments))
+    return render(request,'post.html',{'post':post,'comments':comments,'comment_form':comment_form})
+
+def search(request):
+    if 'search' in request.GET and not request.GET['search']==None:
+        search_term=request.GET['search']
+        print(search_term)
+        users=User.objects.filter(username__icontains=search_term)
+        print(len(users))
+    return render (request,'search.html',{'users':users})

@@ -15,9 +15,9 @@
         <h1><a href="/">Instagram </a> </h1>
       </div>
       <div>
-        <form class="navbar-form">
+        <form class="navbar-form" action="{% url 'search_results' %}" role="search">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search">
+            <input type="text" class="form-control" placeholder="Search" name="search">
           </div>
         </form>
       </div>
