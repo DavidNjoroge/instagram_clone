@@ -64,3 +64,9 @@ def update_profile(request):
         'user_form': user_form,
         'profile_form': profile_form
     })
+def post(request,post_id):
+    try:
+        post=Post.objects.get(id=post_id)
+    except DoesNotExist:
+        raise Http404()
+    return render(request,'post.html',{'post':post})

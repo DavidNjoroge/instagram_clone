@@ -1,6 +1,4 @@
-.profile{
-    color: pink;
-}
+
 .img{
     width: 100%;
 
@@ -9,7 +7,5 @@
     border-width:1px;  
     border-style:solid;
     padding: 0;
-}
-body{
-    color: pink;
+    margin-bottom: 20px;
 }
